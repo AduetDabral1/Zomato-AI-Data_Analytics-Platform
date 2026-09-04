@@ -1,0 +1,91 @@
+source (Zomato data from Kaggle + enriched with ai use to simulate real world)
+
+|
+
+lake/ landing zone (s3)
+
+|
+
+bronze (snowflake)
+
+|
+
+silver (snowflake)
+
+|
+
+gold (snowflake)
+
+|
+
+bi dashboard (streamlit + snowsight)
+
+
+
+airflow - orchestration {upload_raw (bronze)  ->  dbt_build_core (silver)  ->  enrich_reviews(ai enrichment)  ->  dbt_build_all (gold - marts) }
+
+
+
+AI
+llm enrichment -> reviews to insights
+rag            -> chat from your reviews
+text-to-sql    -> chat rom your warehouse
+
+
+-----------------
+STEPS:
+--------------
+
+Load data into s3
+
+create a new snowflake project -> 01. setup.sql -> 02.storage_integration.sql
+
+for 02. create a s3-read-policy and a new role snowflake-s3-role -> give the trust policy for the role, desc integration in snowflake and copy the STORAGE_AWS_IAM_USER_ARN and STORAGE_AWS_EXTERNAL_ID  in the s3 policy
+
+03_stage_and_format is run to access s3 data and list the data
+
+04_raw_table - create table schema
+
+05_copy_into - laod the data from aws s3 to snowflake
+
+pip install dbt-snowflake
+
+dbt init zomato -> add details needed
+
+make changes in dbt_project.yml
+
+create _sources.yml under models/staging/ - name source tables there
+
+in macrso, create a generate_schema_name.sql  <target_schema>_<custom_schema>
+
+[CORE STRUCTURE OF DBT MODEL ABOVE]
+ - sql select becomes managed tables
+ - best practices from dev applied to sql
+ - dbt is compiler + orchestration for sql (all data is stored in snowflake, dbt is just the query)
+
+stg_menu.sql, stg_users.sql, etc are created that clean the data from the raw schema and puts it into staging views
+
+cd zomato
+dbt run --select staging
+
+after silver alyer is loaded, we create a new folder inside models named marts and create our dim, fact tables and data marts
+
+create test - _staging.yml and _marts.yml inside models -> execute dbt test
+
+if eveything is successful, build the entire dbt model -> dbt build 
+
+then, dbt docs generate; dbt docs serve
+
+dbt docs avaialble on http://localhost:8080/#!/overview -> after running serve
+
+create a dcoker container with 4 tasks - 2 tasks success, ai layer left
+
+create ai folder, write enrich_reviews.py using gemini api key
+
+check table creation in snowflake
+
+next ,create the rag_Chat.py and text_to_sql, check for their correct working on streamlit in the browser
+
+add tasks - enrich_reviews and dbt_build_ai in airflow
+
+check the dag simulation

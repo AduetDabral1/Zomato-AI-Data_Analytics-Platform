@@ -1,0 +1,13 @@
+zomato:
+  outputs:
+    dev:
+      account: MAHHFFW-TU26858
+      database: ZOMATO
+      password: Endgame42@captain
+      role: DBT_ROLE
+      schema: STAGING
+      threads: 8
+      type: snowflake
+      user: DABRALADUET
+      warehouse: ZOMATO_WH
+  target: dev
