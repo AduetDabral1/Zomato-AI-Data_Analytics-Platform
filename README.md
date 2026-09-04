@@ -1,5 +1,8 @@
 # Zomato Data Engineering & AI Platform
 
+## Project Walkthrough
+https://github.com/user-attachments/assets/71e2af11-3765-4256-99d2-8461376a6106
+
 An end-to-end **data engineering + AI project** built using the Zomato
 Kaggle dataset and designed to simulate a real-world analytics platform.
 
