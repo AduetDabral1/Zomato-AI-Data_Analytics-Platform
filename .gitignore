@@ -1,0 +1,64 @@
+# ========================
+# 1. Environment & Secrets (CRITICAL)
+# ========================
+# Never commit credentials, passwords, or API keys
+.env
+*.env
+.env.*
+secrets.yaml
+credentials.json
+
+# Snowflake tokens or private key files
+*.pem
+*.p8
+
+
+# ========================
+# 2. Airflow Specifics
+# ========================
+# Prevents the "Function not implemented" symlink error & keeps logs out
+airflow/logs/
+airflow/*.pid
+airflow/*.cfg
+airflow/airflow.db
+airflow/webserver_config.py
+
+
+# ========================
+# 3. Project Logs & Data
+# ========================
+# Top-level logs directory shown in your project
+logs/
+*.log
+
+# Raw datasets (prevents bloating GitHub repo and hitting file size limits)
+data/
+# If you want to keep sample/schema files, you can un-ignore them like:
+# !data/sample.csv
+
+
+# ========================
+# 4. Python Environment & Cache
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+
+# ========================
+# 5. OS & IDE Metadata
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.idea/
+.vscode/
+*.swp
+*.swo
